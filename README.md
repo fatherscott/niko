@@ -1,2 +1,3 @@
 # niko
-Chat sample using a flutter
+플러터와 고랭을 이용한 프로젝트 입니다.
+어디로 흘러 갈지 아지 몰?루
