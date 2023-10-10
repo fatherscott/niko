@@ -1,0 +1,29 @@
+{
+  "helloWorld": "Hello World!",
+  "@helloWorld": {
+    "description": "The conventional newborn programmer greeting"
+  },
+  "accountCreated": "account has been created.",
+  "iD": "ID",
+  "passWord": "PassWord",
+  "title": "Niko",
+  "loginSubTitle": "Login now to see what they ar talking!",
+  "idLength": "ID must be at least 4 characters",
+  "passWordLength": "PassWord must be at least 4 characters",
+  "signIn":"Sign In",
+  "dontHaveAnAccount":"Don't have an account? ",
+  "registerhere" : "Register here",
+  "passwordDoesNotMatch" : "Password does not match",
+  "passwordConfirm": "Confirm Password",
+  "registerSubTitle": "Create account now to chat and explore",
+  "register": "Register",
+  "alreadyHaveAnAccount": "Already have an account? ",
+  "loginNow": "Login Now",
+  "idAlreadyExists" : "ID already exists.",
+  "loginSuccessful" : "Login Successful",
+  "groups": "Groups",
+  "logout": "Logout",
+  "profile": "Profile",
+  "areYouSureYouWantToLogout":"Are you sure you want to logout?"
+  
+}
