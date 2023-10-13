@@ -149,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
           if (value != null) {
             showSnackBar(context, AppLocalizations.of(context)!.loginSuccessful,
                 Colors.green);
-            sessionService.setAuthData(id, value.authData);
+            sessionService.set(id, value.nickName, value.eMail, value.authData);
             nextScreen(context, const HomePage());
           } else {
             showSnackBar(context,

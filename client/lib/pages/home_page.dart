@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:niko_client/pages/account/login_page.dart';
 import 'package:niko_client/pages/account/profile_page.dart';
@@ -17,14 +19,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   SessionService sessionService = SessionService();
-  String userName = "";
+  String id = "";
+  String nickName = "";
+  String eMail = "";
 
   @override
   void initState() {
     super.initState();
-    sessionService.getAuthData().then((value) {
+    sessionService.get().then((value) {
       setState(() {
-        userName = value.$1;
+        id = value.$1;
+        nickName = value.$2;
+        eMail = value.$3;
       });
     });
   }
@@ -64,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                   height: 15,
                 ),
                 Text(
-                  userName,
+                  id,
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
@@ -91,7 +97,9 @@ class _HomePageState extends State<HomePage> {
                     nextScreenReplace(
                         context,
                         ProfilePage(
-                          userName: userName,
+                          id: id,
+                          nickName: nickName,
+                          eMail: eMail,
                         ));
                   },
                   selected: true,

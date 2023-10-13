@@ -22,6 +22,8 @@ class _ResisterPageState extends State<ResisterPage> {
   String id = "";
   String password = "";
   String confirm = "";
+  String eMail = "";
+  String nickName = "";
 
   AccountService accountService = AccountService();
   SessionService sessionService = SessionService();
@@ -36,7 +38,7 @@ class _ResisterPageState extends State<ResisterPage> {
           : SingleChildScrollView(
               child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   child: Form(
                       key: formKey,
                       child: Column(
@@ -118,6 +120,50 @@ class _ResisterPageState extends State<ResisterPage> {
                             },
                             //check the validation
                           ),
+                          const SizedBox(height: 15),
+                          TextFormField(
+                            decoration: textInputDecoration.copyWith(
+                                labelText: AppLocalizations.of(context)!.eMail,
+                                prefixIcon: Icon(Icons.email,
+                                    color: Theme.of(context).primaryColor)),
+                            validator: (val) {
+                              bool emailValid = RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(val!);
+
+                              if (emailValid == false) {
+                                return AppLocalizations.of(context)!.validEMail;
+                              } else {
+                                return null;
+                              }
+                            },
+                            onChanged: (val) {
+                              setState(() {
+                                eMail = val;
+                              });
+                            },
+                          ),
+                          const SizedBox(height: 15),
+                          TextFormField(
+                            decoration: textInputDecoration.copyWith(
+                                labelText:
+                                    AppLocalizations.of(context)!.nickName,
+                                prefixIcon: Icon(Icons.add_reaction_outlined,
+                                    color: Theme.of(context).primaryColor)),
+                            validator: (val) {
+                              if (val!.length < 4) {
+                                return AppLocalizations.of(context)!
+                                    .nickNameLength;
+                              } else {
+                                return null;
+                              }
+                            },
+                            onChanged: (val) {
+                              setState(() {
+                                nickName = val;
+                              });
+                            },
+                          ),
                           const SizedBox(height: 20),
                           SizedBox(
                             width: double.infinity,
@@ -171,7 +217,9 @@ class _ResisterPageState extends State<ResisterPage> {
         _isLoading = true;
       });
 
-      accountService.registerUserWithIdandPassword(id, password).then((value) {
+      accountService
+          .registerUserWithIdandPassword(id, password, nickName, eMail)
+          .then((value) {
         setState(() {
           _isLoading = false;
         });
@@ -181,7 +229,7 @@ class _ResisterPageState extends State<ResisterPage> {
         } else if (value != null) {
           showSnackBar(context, AppLocalizations.of(context)!.accountCreated,
               Colors.green);
-          sessionService.setAuthData(id, value.authData);
+          sessionService.set(id, nickName, eMail, value.authData);
           nextScreen(context, const HomePage());
         }
       });

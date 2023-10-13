@@ -17,35 +17,44 @@ class SessionService {
 
   String authData = "";
   String id = "";
+  String nickName = "";
+  String eMail = "";
 
-  void setAuthData(String id, String data) async {
+  void set(String id, String nickName, String eMail, String data) async {
     await _m!.acquire();
     // No other lock can be acquired until the lock is released
     try {
       // critical section with asynchronous code
       authData = data;
       this.id = id;
+      this.nickName = nickName;
+      this.eMail = eMail;
     } finally {
       _m!.release();
     }
   }
 
-  Future<(String, String)> getAuthData() async {
+  Future<(String, String, String, String)> get() async {
     String authData = "";
     String id = "";
+    String nickName = "";
+    String eMail = "";
+
     await _m!.acquire();
     // No other lock can be acquired until the lock is released
     try {
       authData = this.authData;
       id = this.id;
+      nickName = this.nickName;
+      eMail = this.eMail;
       // critical section with asynchronous code
     } finally {
       _m!.release();
     }
-    return (id, authData);
+    return (id, nickName, eMail, authData);
   }
 
   void logout() async {
-    setAuthData("", "");
+    set("", "", "", "");
   }
 }

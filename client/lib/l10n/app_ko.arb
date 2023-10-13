@@ -21,5 +21,9 @@
     "groups": "그룹",
     "logout": "사용 종료",
     "profile": "프로필",
-    "areYouSureYouWantToLogout":"로그 아웃 하시겠습니까?"
+    "areYouSureYouWantToLogout":"로그 아웃 하시겠습니까?",
+    "eMail":"이메일",
+    "nickName":"별명",
+    "validEMail": "적합하지 않은 이메일 형식입니다.",
+    "nickNameLength": "별명은 적어도 4자 이상이어야 합니다."
 }

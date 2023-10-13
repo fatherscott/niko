@@ -24,6 +24,10 @@
   "groups": "Groups",
   "logout": "Logout",
   "profile": "Profile",
-  "areYouSureYouWantToLogout":"Are you sure you want to logout?"
+  "areYouSureYouWantToLogout":"Are you sure you want to logout?",
+  "eMail":"Email",
+  "nickName":"Nick Name",
+  "validEMail": "Invalid email format.",
+  "nickNameLength": "PassWord must be at least 4 characters"
   
 }

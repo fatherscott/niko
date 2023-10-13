@@ -4,12 +4,16 @@ type AccountCreateRequest struct {
 	RequestBase
 	Id       string `json: "Id"`
 	Password string `json: "Password"`
+	NickName string `json: "NickName"`
+	EMail    string `json: "EMail"`
 }
 
 func (request *AccountCreateRequest) Reset() {
 	request.RequestBase.Reset()
 	request.Id = ""
 	request.Password = ""
+	request.NickName = ""
+	request.EMail = ""
 }
 
 func (a *AccountCreateRequest) Verify() bool {
@@ -17,6 +21,12 @@ func (a *AccountCreateRequest) Verify() bool {
 		return false
 	}
 	if len(a.Password) < 1 {
+		return false
+	}
+	if len(a.NickName) < 1 {
+		return false
+	}
+	if len(a.EMail) < 1 {
 		return false
 	}
 	return true
@@ -45,9 +55,13 @@ func (request *AccountLoginRequest) Reset() {
 type AccountLoginResponse struct {
 	ResponseBase
 	AuthData string `json: "AuthData"`
+	NickName string `json: "NickName"`
+	EMail    string `json: "EMail"`
 }
 
 func (response *AccountLoginResponse) Reset() {
 	response.ResponseBase.Reset()
 	response.AuthData = ""
+	response.NickName = ""
+	response.EMail = ""
 }

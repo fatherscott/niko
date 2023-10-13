@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   getUserLoggedInStatus() async {
-    sessionService.getAuthData().then((value) {
+    sessionService.get().then((value) {
       if (value.$1.isNotEmpty) {
         _isSignedIn = true;
       }

@@ -6,9 +6,16 @@ import '../../widgets/widgets.dart';
 import '../home_page.dart';
 import 'login_page.dart';
 
+// ignore: must_be_immutable
 class ProfilePage extends StatefulWidget {
-  String userName = "";
-  ProfilePage({super.key, required this.userName});
+  String id = "";
+  String nickName = "";
+  String eMail = "";
+  ProfilePage(
+      {super.key,
+      required this.id,
+      required this.nickName,
+      required this.eMail});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -42,7 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
               height: 15,
             ),
             Text(
-              widget.userName,
+              widget.id,
               textAlign: TextAlign.center,
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
@@ -125,6 +132,58 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             ),
           ])),
+      body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 170),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Icon(
+              Icons.account_circle,
+              size: 200,
+              color: Colors.grey[700],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.iD,
+                  style: const TextStyle(fontSize: 17),
+                ),
+                Text(widget.id, style: const TextStyle(fontSize: 17))
+              ],
+            ),
+            const Divider(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.nickName,
+                  style: const TextStyle(fontSize: 17),
+                ),
+                Text(widget.nickName, style: const TextStyle(fontSize: 17))
+              ],
+            ),
+            const Divider(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  AppLocalizations.of(context)!.eMail,
+                  style: const TextStyle(fontSize: 17),
+                ),
+                Text(widget.eMail, style: const TextStyle(fontSize: 17))
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 }

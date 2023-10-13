@@ -3,20 +3,26 @@ import 'package:niko_client/model/base.dart';
 class AccountCreateRequest extends RequsetBase {
   String id;
   String password;
+  String nickName;
+  String eMail;
 
-  AccountCreateRequest(this.id, this.password, String? authData)
-      : super(authData);
+  AccountCreateRequest(this.id, this.password, this.nickName, this.eMail)
+      : super(null);
 
   Map<String, dynamic> toJson() {
     return {
       'Id': id,
       'Password': password,
+      'NickName': nickName,
+      'EMail': eMail,
     };
   }
 
   AccountCreateRequest.fromJson(Map<String, dynamic> json)
       : id = json['Id'],
         password = json['Password'],
+        nickName = json['NickName'],
+        eMail = json['EMail'],
         super(null);
 }
 
@@ -59,15 +65,21 @@ class AccountLoginRequest extends RequsetBase {
 class AccountLoginResponse extends ResponseBase {
   AccountLoginResponse(String errorMesage) : super(errorMesage);
   String authData = "";
+  String nickName = "";
+  String eMail = "";
 
   Map<String, dynamic> toJson() {
     return {
       'AuthData': authData,
+      'NickName': nickName,
+      'EMail': eMail,
       'ErrorMessage': errorMesage,
     };
   }
 
   AccountLoginResponse.fromJson(Map<String, dynamic> json)
       : authData = json['AuthData'],
+        nickName = json['NickName'],
+        eMail = json['EMail'],
         super(json['ErrorMessage']);
 }

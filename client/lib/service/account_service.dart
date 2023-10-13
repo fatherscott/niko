@@ -7,9 +7,10 @@ import 'http_service.dart';
 
 class AccountService {
   Future<AccountCreateResponse?> registerUserWithIdandPassword(
-      String id, String password) async {
+      String id, String password, String nickName, String eMail) async {
     try {
-      AccountCreateRequest request = AccountCreateRequest(id, password, null);
+      AccountCreateRequest request =
+          AccountCreateRequest(id, password, nickName, eMail);
       String url = "${Constants.apiUrl}/api/account/create";
       String jsonString = jsonEncode(request);
 
@@ -21,14 +22,14 @@ class AccountService {
     return null;
   }
 
-  Future<AccountCreateResponse?> loginUser(String id, String password) async {
+  Future<AccountLoginResponse?> loginUser(String id, String password) async {
     try {
       AccountLoginRequest request = AccountLoginRequest(id, password, null);
       String url = "${Constants.apiUrl}/api/account/login";
       String jsonString = jsonEncode(request);
 
       String responseString = await Post(url, jsonString);
-      return AccountCreateResponse.fromJson(json.decode(responseString));
+      return AccountLoginResponse.fromJson(json.decode(responseString));
     } catch (e) {
       print(e);
     }

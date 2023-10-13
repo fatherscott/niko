@@ -3,6 +3,7 @@ package api
 import (
 	"database/sql"
 	"niko_server/db"
+	"niko_server/model"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -46,7 +47,7 @@ func (a *AccountCreate) PostFunction(c *fiber.Ctx) error {
 		}
 	}
 
-	response.ErrorMessage = "idAlreadyExists"
+	response.ErrorMessage = model.ErrorEnum(model.Account_Create_Id_Already_Exists).String()
 	return c.JSON(response)
 }
 
@@ -71,6 +72,8 @@ func (a *AccountLogin) PostFunction(c *fiber.Ctx) error {
 	if nil == user.CheckUserIdAndPassWord() {
 		user.MakeSEQ()
 		response.AuthData = user.MakeAuthString()
+		response.NickName = user.NickName
+		response.EMail = user.EMail
 		return c.JSON(response)
 	}
 

@@ -79,6 +79,8 @@ func (u *User) Release() {
 type User struct {
 	Id        string
 	PassWord  string
+	NickName  string
+	EMail     string
 	CreatedAt string
 
 	SEQ uint32
@@ -95,6 +97,8 @@ type User struct {
 func (u *User) CreateSetting(d *Db) {
 	u.Id = u.AccountCreateRequest.Id
 	u.PassWord = u.AccountCreateRequest.Password
+	u.NickName = u.AccountCreateRequest.NickName
+	u.EMail = u.AccountCreateRequest.EMail
 	u.CreatedAt = time.Now().Format("2006-01-02 15:04:05-0700")
 	u.Db = d
 }
@@ -106,20 +110,17 @@ func (u *User) LoginSetting(d *Db) {
 }
 
 func (u *User) Reset() {
-	u.Init("", "", "", nil)
+	u.Id = ""
+	u.PassWord = ""
+	u.CreatedAt = ""
+	u.NickName = ""
+	u.EMail = ""
 
 	u.AccountCreateRequest.Reset()
 	u.AccountCreateResponse.Reset()
 
 	u.AccountLoginRequest.Reset()
 	u.AccountLoginResponse.Reset()
-}
-
-func (u *User) Init(id string, password string, createdAt string, d *Db) {
-	u.Id = id
-	u.PassWord = password
-	u.CreatedAt = createdAt
-	u.Db = d
 }
 
 // 리턴시 sql.ErrNoRows 체크하여 값 처리
@@ -145,7 +146,7 @@ func (u *User) CheckUserIdAndPassWord() error {
 	}
 	defer u.Close()
 
-	err = db.QueryRow("select id from user where id = ? and pass_word = ?", u.Id, u.PassWord).Scan(&u.Id)
+	err = db.QueryRow("select id, nick_name, e_mail from user where id = ? and pass_word = ?", u.Id, u.PassWord).Scan(&u.Id, &u.NickName, &u.EMail)
 	if err != nil {
 		return err
 	}
@@ -168,13 +169,13 @@ func (u *User) InsertUser() error {
 		return err
 	}
 
-	stmt, err := tx.Prepare("insert into user (id,pass_word,created_at) values (?,?,?)")
+	stmt, err := tx.Prepare("insert into user (id,pass_word,nick_name,e_mail,created_at) values (?,?,?,?,?)")
 
 	if err != nil {
 		return err
 	}
 
-	_, err = stmt.Exec(u.Id, u.PassWord, u.CreatedAt)
+	_, err = stmt.Exec(u.Id, u.PassWord, u.NickName, u.EMail, u.CreatedAt)
 	if err != nil {
 		return err
 	}

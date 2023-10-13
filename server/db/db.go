@@ -21,7 +21,7 @@ func (d *Db) Init(path string) {
 	d.Path = path
 
 	d.CreateStmt = `
-		create table user (id text not null primary key, pass_word text not null, created_at text default null);
+		create table user (id text not null primary key, pass_word text not null, nick_name text not null, e_mail text not null, created_at text default null);
 	`
 }
 
