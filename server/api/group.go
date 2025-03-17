@@ -10,16 +10,15 @@ import (
 
 func init() {
 	isFunctionHashCreated()
-	PostFunctions["/api/account/create"] = new(AccountCreate)
-	PostFunctions["/api/account/login"] = new(AccountLogin)
+	GetFunctions["/api/group/list"] = new(GroupList)
 
 }
 
-type AccountCreate struct {
+type GroupList struct {
 	Handler
 }
 
-func (a *AccountCreate) PostFunction(c *fiber.Ctx) error {
+func (a *GroupList) GetFunction(c *fiber.Ctx) error {
 
 	user := db.GetSession()
 	defer user.Release()
@@ -49,33 +48,4 @@ func (a *AccountCreate) PostFunction(c *fiber.Ctx) error {
 
 	response.ErrorMessage = model.ErrorEnum(model.Account_Create_Id_Already_Exists).String()
 	return c.JSON(response)
-}
-
-type AccountLogin struct {
-	Handler
-}
-
-func (a *AccountLogin) PostFunction(c *fiber.Ctx) error {
-
-	user := db.GetSession()
-	defer user.Release()
-
-	request := &user.AccountLoginRequest
-	response := &user.AccountLoginResponse
-
-	if err := c.BodyParser(request); err != nil {
-		return c.SendStatus(a.Handler.ParserErrorCode)
-	}
-
-	user.LoginSetting(a.Handler.Db)
-
-	if nil == user.CheckUserIdAndPassWord() {
-		user.MakeSEQ()
-		response.AuthData = user.MakeAuthString()
-		response.NickName = user.NickName
-		response.EMail = user.EMail
-		return c.JSON(response)
-	}
-
-	return c.SendStatus(501)
 }

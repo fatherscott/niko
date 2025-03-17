@@ -22,6 +22,7 @@ func (d *Db) Init(path string) {
 
 	d.CreateStmt = `
 		create table user (id text not null primary key, pass_word text not null, nick_name text not null, e_mail text not null, created_at text default null);
+		create table group (id text not null primary key, owner text not null, created_at text default null);
 	`
 }
 
@@ -62,10 +63,9 @@ func (d *Db) GetDB() (*sql.DB, error) {
 	return d.DB, nil
 }
 
-func (d *Db) Close() error {
+func (d *Db) Close() {
 	d.DB.Close()
 	d.DB = nil
-	return nil
 }
 
 func (d *Db) Begin(db *sql.DB) (*sql.Tx, error) {

@@ -30,6 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         elevation: 0,
+        centerTitle: true,
         title: Text(AppLocalizations.of(context)!.profile,
             style: const TextStyle(
                 color: Colors.white,

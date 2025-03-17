@@ -60,23 +60,23 @@ func init() {
 
 }
 
-var UserPool = sync.Pool{
+var SessionPool = sync.Pool{
 	New: func() interface{} {
-		return new(User)
+		return new(Session)
 	},
 }
 
-func GetUser() *User {
-	u := UserPool.Get().(*User)
+func GetSession() *Session {
+	u := SessionPool.Get().(*Session)
 	u.Reset()
 	return u
 }
 
-func (u *User) Release() {
-	UserPool.Put(u)
+func (u *Session) Release() {
+	SessionPool.Put(u)
 }
 
-type User struct {
+type Session struct {
 	Id        string
 	PassWord  string
 	NickName  string
@@ -94,7 +94,7 @@ type User struct {
 	model.AccountLoginResponse
 }
 
-func (u *User) CreateSetting(d *Db) {
+func (u *Session) CreateSetting(d *Db) {
 	u.Id = u.AccountCreateRequest.Id
 	u.PassWord = u.AccountCreateRequest.Password
 	u.NickName = u.AccountCreateRequest.NickName
@@ -103,13 +103,13 @@ func (u *User) CreateSetting(d *Db) {
 	u.Db = d
 }
 
-func (u *User) LoginSetting(d *Db) {
+func (u *Session) LoginSetting(d *Db) {
 	u.Id = u.AccountLoginRequest.Id
 	u.PassWord = u.AccountLoginRequest.Password
 	u.Db = d
 }
 
-func (u *User) Reset() {
+func (u *Session) Reset() {
 	u.Id = ""
 	u.PassWord = ""
 	u.CreatedAt = ""
@@ -124,7 +124,7 @@ func (u *User) Reset() {
 }
 
 // 리턴시 sql.ErrNoRows 체크하여 값 처리
-func (u *User) QueryUserId() error {
+func (u *Session) QueryUserId() error {
 	db, err := u.GetDB()
 	if err != nil {
 		return err
@@ -139,7 +139,7 @@ func (u *User) QueryUserId() error {
 	return nil
 }
 
-func (u *User) CheckUserIdAndPassWord() error {
+func (u *Session) CheckUserIdAndPassWord() error {
 	db, err := u.GetDB()
 	if err != nil {
 		return err
@@ -154,7 +154,7 @@ func (u *User) CheckUserIdAndPassWord() error {
 	return nil
 }
 
-func (u *User) InsertUser() error {
+func (u *Session) InsertUser() error {
 
 	db, err := u.GetDB()
 
@@ -185,11 +185,11 @@ func (u *User) InsertUser() error {
 	return nil
 }
 
-func (u *User) MakeSEQ() {
+func (u *Session) MakeSEQ() {
 	u.SEQ = uint32(rand.Float64() * 4294967294)
 }
 
-func (u *User) MakeAuthString() string {
+func (u *Session) MakeAuthString() string {
 
 	buf := util.GetBuffer()
 	defer util.PutBuffer(buf)
@@ -209,7 +209,7 @@ func (u *User) MakeAuthString() string {
 	return base64.StdEncoding.EncodeToString(buf2.Bytes())
 }
 
-func (u *User) ParseAuthString(base64String string) error {
+func (u *Session) ParseAuthString(base64String string) error {
 
 	lengthNaes, err := base64.StdEncoding.DecodeString(base64String)
 	if err != nil {

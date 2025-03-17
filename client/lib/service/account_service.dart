@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:niko_client/model/account.dart';
 
 import '../shared/constants.dart';
@@ -17,7 +18,9 @@ class AccountService {
       String responseString = await Post(url, jsonString);
       return AccountCreateResponse.fromJson(json.decode(responseString));
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
     return null;
   }
@@ -31,7 +34,25 @@ class AccountService {
       String responseString = await Post(url, jsonString);
       return AccountLoginResponse.fromJson(json.decode(responseString));
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+    return null;
+  }
+
+  Future<AccountLoginResponse?> getGroup(String id) async {
+    try {
+      AccountLoginRequest request = AccountLoginRequest(id, password, null);
+      String url = "${Constants.apiUrl}/api/account/login";
+      String jsonString = jsonEncode(request);
+
+      String responseString = await Post(url, jsonString);
+      return AccountLoginResponse.fromJson(json.decode(responseString));
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
     }
     return null;
   }
